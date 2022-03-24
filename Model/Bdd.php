@@ -8,9 +8,9 @@ class Bdd
     function __construct()
     {
 
-        $dsn = 'mysql:dbname=all4sport_mobile;host=127.0.0.1:3308';
+        $dsn = 'mysql:dbname=all4sport;host=127.0.0.1:3306';
         $dbUser = 'root';
-        $dbPwd = '';
+        $dbPwd = 'toor';
 
         try {
             $this->bdd = new PDO($dsn, $dbUser, $dbPwd);
@@ -63,13 +63,12 @@ class Bdd
 
     function getProduitsRef($search)
     {
-
-        $sql = "SELECT concat(substr(nom_fournisseur,1,3),substr(nom_categorie,1,3), id_produit) as reference, 
+        $sql = 'SELECT concat(substr(nom_fournisseur,1,3),substr(nom_categorie,1,3), id_produit) as reference, 
          nom_produit AS nom
          FROM produits 
          JOIN categories ON fk_categorie_produit= id_categories 
          JOIN fournisseurs on fk_fournisseur_produit = id_fournisseurs
-         WHERE concat(substr(nom_fournisseur,1,3),substr(nom_categorie,1,3), id_produit) = :ref;";
+         WHERE concat(substr(nom_fournisseur,1,3),substr(nom_categorie,1,3), id_produit) = :ref';
         $rq =  $this->bdd->prepare($sql);
         $rq->execute(['ref' => $search]);
         return $rq->fetchAll();
